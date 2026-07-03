@@ -394,7 +394,7 @@
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
         </svg>
       </div>
-      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.7</h2>
+      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.8</h2>
       <p style="color: #666; margin: 5px 0 0 0; font-size: 14px;">Selecione o estado de operação em doca</p>
     </div>
 
@@ -642,11 +642,11 @@
         <div style="background: #ffffff; border: 1px solid #ddd; margin: 15px auto; padding: 15px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05); max-width: 100%;">
           <div style="text-align: left;">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <strong style="color: #660099; font-size: 14px; font-family: Arial, sans-serif;">Modo Performance</strong>
+              <strong style="color: #660099; font-size: 14px; font-family: Arial, sans-serif;">Attvar Validação em Lote</strong>
               <!-- 🏷️ BADGE VISUAL DE ITENS PENDENTES -->
               <span id="badge-pendentes" style="display: none; background: #e63946; color: white; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 20px;">0 bipados</span>
             </div>
-            <span id="txt-modo-perf" style="font-size: 12px; color: #666; display: block; margin-top: 2px;">Desativar Validação em tempo real (Modo Online)</span>
+            <span id="txt-modo-perf" style="font-size: 12px; color: #666; display: block; margin-top: 2px;">*Desliga a Validação em tempo real (Desative ao finalizar as leituras)</span>
           </div>
           
           <!-- Switch iOS Puro sem dependência de classe -->
@@ -4477,7 +4477,7 @@ function selecionarTipoOcorrencia(tipo) {
                 }
     
                 const txtResumo = document.getElementById('txtResumoItensModal');
-                if (txtResumo) txtResumo.innerText = `${res.dados.length} item(ns) na carga regional`;
+                if (txtResumo) txtResumo.innerText = `${res.dados.length} item(ns) no Documento (REF.: Last Mile)`;
                 if (wrapper) wrapper.style.display = 'block';
             } else {
                 var msgErro = (res && res.error) ? res.error : "Nenhum registro ativo encontrado para este romaneio.";
@@ -4542,7 +4542,7 @@ function selecionarTipoOcorrencia(tipo) {
         <!-- Cabeçalho -->
         <div style="padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f1f1;">
             <div>
-                <span style="font-size: 11px; color: #888; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Auditoria Física</span>
+                <span style="font-size: 11px; color: #888; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Pedidos x Volumes</span>
                 <h3 style="margin: 2px 0 0 0; font-size: 16px; color: #660099; font-weight: bold;" id="tituloModalDetalhes">Carregando dados...</h3>
             </div>
             <button onclick="fecharModalDetalhesRomaneio()" style="background: #f5f5f5; border: none; color: #555; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;">&times;</button>
