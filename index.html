@@ -394,7 +394,7 @@
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
         </svg>
       </div>
-      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.8</h2>
+      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.10</h2>
       <p style="color: #666; margin: 5px 0 0 0; font-size: 14px;">Selecione o estado de operação em doca</p>
     </div>
 
@@ -642,11 +642,11 @@
         <div style="background: #ffffff; border: 1px solid #ddd; margin: 15px auto; padding: 15px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.05); max-width: 100%;">
           <div style="text-align: left;">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <strong style="color: #660099; font-size: 14px; font-family: Arial, sans-serif;">Attvar Validação em Lote</strong>
+              <strong style="color: #660099; font-size: 14px; font-family: Arial, sans-serif;">Ativar Validação em Lote</strong>
               <!-- 🏷️ BADGE VISUAL DE ITENS PENDENTES -->
               <span id="badge-pendentes" style="display: none; background: #e63946; color: white; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 20px;">0 bipados</span>
             </div>
-            <span id="txt-modo-perf" style="font-size: 12px; color: #666; display: block; margin-top: 2px;">*Desliga a Validação em tempo real (Desative ao finalizar as leituras)</span>
+            <span id="txt-modo-perf" style="font-size: 12px; color: #666; display: block; margin-top: 2px;">*Validação em tempo real será DESATIVADA*</span>
           </div>
           
           <!-- Switch iOS Puro sem dependência de classe -->
@@ -2475,6 +2475,14 @@ function resetarInterface() {
         elContador.setAttribute("data-base", "0"); 
     }
 
+    // =========================================================================
+    // 🩹 INJEÇÃO CIRÚRGICA: RESET COMPLETO DO GATILHO DE AUDITORIA
+    // =========================================================================
+    // Força o link de detalhes a sumir no reset da tela para blindar o próximo lote
+    const lkDet = document.getElementById('lnkDetalhesRomaneio');
+    if (lkDet) lkDet.style.display = 'none';
+    // =========================================================================
+    
     // 4. Reset das variáveis de controle e flags (MANTENDO FUNCIONALIDADES)
     enviandoDados = false;
     pulouComentarioFinal = false; 
@@ -4370,7 +4378,7 @@ function selecionarTipoOcorrencia(tipo) {
                 // 🌟 CRITÉRIO DE CONTADOR RECALIBRADO: Lê o tamanho total da lista bruta enviada pelo Sheets (20)
                 const totalItensPlanilha = listaItens.length;
                 
-                document.getElementById("txt-modo-perf").innerHTML = "<span style='color: #2b9348; font-weight: bold;'>🟢 Modo Validação em Lote Ativo (" + totalItensPlanilha + " pedidos)</span>";
+                document.getElementById("txt-modo-perf").innerHTML = "<span style='color: #2b9348; font-weight: bold;'>🟢 Desative ao finalizar as leituras (" + totalItensPlanilha + " pedidos pendentes)</span>";
                 console.log(" [MEMÓRIA] Romaneio sincronizado localmente. Total de registros: " + totalItensPlanilha);
               } else {
                 alert("Erro ao baixar romaneio do servidor: " + (data.error || data.mensagem || "Desconhecido"));
@@ -4393,7 +4401,18 @@ function selecionarTipoOcorrencia(tipo) {
         }
             
         
-            (function() {
+       //     (function() {
+         //   const style = document.createElement('style');
+          //  style.innerHTML = `
+           //   #slider-layout-perf:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+            //  #chkModoPerformance:checked + #slider-layout-perf { background-color: #660099 !important; }
+           //   #chkModoPerformance:checked + #slider-layout-perf:before { transform: translateX(24px); }
+          //  `;
+          //  document.head.appendChild(style);
+         // })();
+
+        (function() {
+            // 1. Injeta os estilos CSS originais de animação do botão de alternância
             const style = document.createElement('style');
             style.innerHTML = `
               #slider-layout-perf:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -4401,7 +4420,64 @@ function selecionarTipoOcorrencia(tipo) {
               #chkModoPerformance:checked + #slider-layout-perf:before { transform: translateX(24px); }
             `;
             document.head.appendChild(style);
-          })();
+        
+            // 2. 🔥 GATILHO REATIVO: Monitora o clique no botão para exibir o alerta destacado
+            document.addEventListener("DOMContentLoaded", function() {
+                const chkPerformance = document.getElementById("chkModoPerformance");
+                
+                if (chkPerformance) {
+                    chkPerformance.addEventListener("change", function() {
+                        // Remove qualquer alerta antigo para evitar duplicidade na tela []
+                        const alertaAntigo = document.getElementById("alertaPerfFixoMestre");
+                        if (alertaAntigo) alertaAntigo.remove();
+        
+                        // 🚨 SE O SWITCH FOR ATIVADO ("ON") []
+                        if (this.checked) {
+                            console.log("⚡ [FRONT-CONF] Modo Performance ativado. Injetando alerta destacado na UI.");
+                            
+                            // Cria o card de aviso estilizado em tempo real []
+                            const divAlerta = document.createElement("div");
+                            divAlerta.id = "alertaPerfFixoMestre";
+                            divAlerta.style.cssText = `
+                                background: #fff3cd; 
+                                color: #856404; 
+                                border-left: 5px solid #ffc107; 
+                                padding: 14px; 
+                                border-radius: 12px; 
+                                font-size: 12px; 
+                                margin: 15px auto; 
+                                max-width: 100%;
+                                font-family: Arial, sans-serif;
+                                font-weight: 500;
+                                line-height: 1.4;
+                                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                                animation: fadeInPerf 0.3s ease-in-out;
+                            `;
+                            
+                            // Mensagem exata solicitada []
+                            divAlerta.innerHTML = `
+                                ⚠️ <strong>MODO PERFORMANCE ATIVADO!</strong><br>
+                                Quando finalizar as leituras do romaneio, desative para os dados serem sincronizados!
+                            `;
+        
+                            // Encontra o contêiner do switch para colar o aviso logo abaixo dele
+                            const cardSwitch = chkPerformance.closest('div[style*="display: flex"]');
+                            if (cardSwitch && cardSwitch.parentNode) {
+                                cardSwitch.parentNode.insertBefore(divAlerta, cardSwitch.nextSibling);
+                            }
+                        } else {
+                            console.log("🟢 [FRONT-CONF] Modo Performance desligado. Alerta removido.");
+                        }
+                    });
+                }
+        
+                // Injeta uma animação suave de fade-in no cabeçalho do documento
+                const styleAnim = document.createElement('style');
+                styleAnim.innerHTML = `@keyframes fadeInPerf { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }`;
+                document.head.appendChild(styleAnim);
+            });
+        })();
+    
 
         function abrirModalDetalhesRomaneio() {
         console.log("📡 [DETALHES] Iniciando rotina isolada de auditoria...");
