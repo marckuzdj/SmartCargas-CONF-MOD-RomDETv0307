@@ -394,7 +394,7 @@
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
         </svg>
       </div>
-      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.6</h2>
+      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.7</h2>
       <p style="color: #666; margin: 5px 0 0 0; font-size: 14px;">Selecione o estado de operação em doca</p>
     </div>
 
@@ -4442,49 +4442,17 @@ function selecionarTipoOcorrencia(tipo) {
             if (res && res.success === true && res.dados && res.dados.length > 0) {
                 if (tbody) {
                     tbody.innerHTML = ""; // Limpeza preventiva do laço
-                    res.dados.forEach(linha => {
                 res.dados.forEach(linha => {
                     
                     // ============================================================================
-                    // 🩹 TRAVA CIRÚRGICA DE CALENDÁRIO: CORRIGE INVERSÃO DIA/MÊS DO GOOGLE
+                    // 🩹 RETORNO AO PADRÃO DINÂMICO NATAL (LÊ DIRETO DO BANCO DE DADOS REGIONAL)
                     // ============================================================================
                     let dataFormatadaFinal = linha.data || '-';
-                    
-                    if (dataFormatadaFinal && dataFormatadaFinal !== '-') {
-                        // Se a data vier separada por barras (Ex: "07/03/2026 11:37" ou "03/07/2026")
-                        if (dataFormatadaFinal.includes('/')) {
-                            // Separa a data do horário
-                            const partesEspaco = dataFormatadaFinal.trim().split(' ');
-                            const dataPura = partesEspaco[0]; // "07/03/2026"
-                            const horarioPuro = partesEspaco[1] || ''; // "11:37"
-                            
-                            const componentesData = dataPura.split('/');
-                            
-                            // 🧠 INTEL-LOG: Força a inversão mecânica caso o Sheets tenha trocado o dia pelo mês
-                            // Se o primeiro bloco for o mês invertido, jogamos ele para o meio e fixamos o dia 03 na frente
-                            if (componentesData.length === 3) {
-                                let dia = componentesData[0];
-                                let mes = componentesData[1];
-                                let ano = componentesData[2];
-                                
-                                // Se o ano veio cortado (Ex: "206"), força a correção para 2026
-                                if (ano === '206') ano = '2026';
-                                
-                                // SEU CASO EXATO: Se o dia veio vindo como "07" e o mês como "03", inverte de volta!
-                                if (dia === '07' && mes === '03') {
-                                    dia = '03';
-                                    mes = '07';
-                                }
-                                
-                                // Remonta no formato correto brasileiro
-                                dataFormatadaFinal = `${dia}/${mes}/${ano}` + (horarioPuro ? ` ${horarioPuro}` : '');
-                            }
-                        }
-                    }
                     // ============================================================================
 
                     const tr = document.createElement('tr');
                     tr.style.borderBottom = "1px solid #f1f1f1";
+
                         
                         let badgeStatus = (linha.confirmado === "SIM" || linha.confirmado === "OK")
                             ? "<span style='background:#e8f5e9; color:#2e7d32; padding:3px 8px; border-radius:4px; font-weight:bold;'>SIM</span>"
