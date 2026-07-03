@@ -394,7 +394,7 @@
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
         </svg>
       </div>
-      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.09</h2>
+      <h2 style="color: #8A05BE; margin: 0; font-size: 22px; font-weight: bold;">Conferência de Carga vRomDET_0307.10</h2>
       <p style="color: #666; margin: 5px 0 0 0; font-size: 14px;">Selecione o estado de operação em doca</p>
     </div>
 
@@ -2475,14 +2475,40 @@ function resetarInterface() {
         elContador.setAttribute("data-base", "0"); 
     }
 
-    // =========================================================================
-    // 🩹 INJEÇÃO CIRÚRGICA: RESET COMPLETO DO GATILHO DE AUDITORIA
-    // =========================================================================
-    // Força o link de detalhes a sumir no reset da tela para blindar o próximo lote
+    // ... RESET DO LINK DE DETALHES JÁ ADICIONADO ANTERIORMENTE ...
     const lkDet = document.getElementById('lnkDetalhesRomaneio');
     if (lkDet) lkDet.style.display = 'none';
+
     // =========================================================================
+    // 🩹 INJEÇÃO CIRÚRGICA: RESET CONDICIONAL E RESILIENTE DO CARD PERFORMANCE
+    // =========================================================================
+    const txtModo = document.getElementById("txt-modo-perf");
     
+    // 🧠 CRITÉRIO DE DISPARO EXCLUSIVO: Só limpa se o lote já estiver 100% salvo na nuvem []
+    if (txtModo && txtModo.innerText.includes("Sincronização finalizada. Clique em 'Finalizar Lote'")) {
+        console.log("🧹 [RESET CONDICIONAL] Sincronização validada. Restaurando primeiro estado de fábrica.");
+
+        // 1. Desliga o Switch mecânico do iOS (O fundo roxo volta a ser cinza) []
+        const chkPerf = document.getElementById("chkModoPerformance");
+        if (chkPerf) chkPerf.checked = false;
+
+        // 2. Esconde o badge vermelho de pendências e zera os bipes []
+        const badgePerf = document.getElementById("badge-pendentes");
+        if (badgePerf) {
+            badgePerf.style.display = "none";
+            badgePerf.innerText = "0 bipados";
+        }
+
+        // 3. Restaura exatamente o texto descritivo original com as estrelas de fábrica []
+        txtModo.innerText = "*Validação em tempo real será DESATIVADA*";
+        txtModo.style.color = "#666"; // Mantém a cor cinza nativa do layout
+    } else {
+        console.log("⏭️ [RESET SKIP] Sincronização incompleta ou manual detectada. Preservando estado visual.");
+    }
+    // =========================================================================
+
+    // ... Reset das variáveis de controle e flags que já existem na sua função abaixo ...
+ 
     // 4. Reset das variáveis de controle e flags (MANTENDO FUNCIONALIDADES)
     enviandoDados = false;
     pulouComentarioFinal = false; 
